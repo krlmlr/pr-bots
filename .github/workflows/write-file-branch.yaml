@@ -24,7 +24,7 @@ jobs:
           echo "Hi!" >> a.txt
           git add .
           git commit -m "Updating file"
-          git push -u origin HEAD
+          git push -f -u origin HEAD
         shell: bash
 
       - name: Create PR
