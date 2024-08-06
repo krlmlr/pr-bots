@@ -14,10 +14,20 @@ jobs:
           git config --global user.name "Kirill Müller"
         shell: bash
 
+      - name: Switch to branch
+        run: |
+          git checkout -b new-branch
+        shell: bash
+
       - name: Write to file
         run: |
           echo "Hi!" >> a.txt
           git add .
           git commit -m "Updating file"
-          git push
+          git push -u origin HEAD
+        shell: bash
+
+      - name: Create PR
+        run: |
+          gh pr create --title "Update a.txt" --body "This PR updates a.txt" --base main --head new-branch
         shell: bash
