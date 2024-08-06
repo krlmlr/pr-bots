@@ -33,3 +33,10 @@ jobs:
         run: |
           gh pr create --title "Update a.txt" --body "This PR updates a.txt" --base main --head new-branch
         shell: bash
+
+      - name: Run merge-pr workflow
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh workflow run merge-pr.yaml
+        shell: bash
