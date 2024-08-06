@@ -8,9 +8,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Configure Git
+        run: |
+          git config --global user.email "kirill@cynkra.com"
+          git config --global user.name "Kirill Müller"
+        shell: bash
+
       - name: Write to file
         run: |
           echo "Hi!" >> a.txt
           git add .
           git commit -m "Adding file"
           git push
+        shell: bash
