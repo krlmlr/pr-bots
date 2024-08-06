@@ -1,0 +1,16 @@
+on:
+  # for manual triggers
+  workflow_dispatch:
+
+jobs:
+  write_file:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Write to file
+        run: |
+          echo "Hi!" >> a.txt
+          git add .
+          git commit -m "Adding file"
+          git push
