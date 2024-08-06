@@ -18,6 +18,6 @@ jobs:
         run: |
           echo "Hi!" >> a.txt
           git add .
-          git commit -m "Adding file"
+          git commit -m "Updating file"
           git push
         shell: bash
