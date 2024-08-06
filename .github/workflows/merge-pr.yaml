@@ -1,0 +1,16 @@
+on:
+  # for manual triggers
+  workflow_dispatch:
+
+jobs:
+  write_file:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Find the number of the first open pr and merge it
+        id: find_pr_number
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          pr_number=$(gh pr list --state open --limit 1 --json number --jq '.[0].number')
+          gh pr merge $pr_number --auto
+        shell: bash
