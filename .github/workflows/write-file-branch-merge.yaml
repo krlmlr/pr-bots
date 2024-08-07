@@ -1,0 +1,43 @@
+on:
+  # for manual triggers
+  workflow_dispatch:
+
+jobs:
+  write_file:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure Git
+        run: |
+          git config --global user.email "kirill@cynkra.com"
+          git config --global user.name "Kirill Müller"
+        shell: bash
+
+      - name: Switch to branch
+        run: |
+          git checkout -b new-branch
+        shell: bash
+
+      - name: Write to file
+        run: |
+          echo "Hi!" >> a.txt
+          git add .
+          git commit -m "Updating file"
+          git push -f -u origin HEAD
+        shell: bash
+
+      - name: Create PR
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr create --title "Update a.txt" --body "This PR updates a.txt" --base main --head new-branch
+        shell: bash
+
+      - name: Merge PR
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          pr_number=$(gh pr list --state open --limit 1 --json number --jq '.[0].number')
+          gh pr merge $pr_number --merge
+        shell: bash
